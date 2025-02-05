@@ -5,6 +5,11 @@ const twilio = require('twilio');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// ✅ New Route for Homepage
+app.get("/", (req, res) => {
+    res.send("WhatsApp Bot is Running!");
+});
+
 app.post('/whatsapp', (req, res) => {
     const message = req.body.Body;
     const from = req.body.From;
@@ -14,7 +19,6 @@ app.post('/whatsapp', (req, res) => {
         replyMessage = "Hello! How can I help you today?";
     }
 
-    // Correct way to send Twilio response
     const twiml = new twilio.twiml.MessagingResponse();
     twiml.message(replyMessage);
     res.type('text/xml').send(twiml.toString());
